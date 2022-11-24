@@ -2,6 +2,7 @@
 VERSION = 0.9
 
 # Customize below to fit your system
+PLATFORM != uname
 
 # paths
 PREFIX = /usr/local
@@ -26,13 +27,13 @@ STCFLAGS = $(INCS) $(STCPPFLAGS) $(CPPFLAGS) $(CFLAGS)
 STLDFLAGS = $(LIBS) $(LDFLAGS)
 
 # OpenBSD:
-ifeq ($(uname),"OpenBSD")
+.if "${PLATFORM}" == "OpenBSD"
 CPPFLAGS = -DVERSION=\"$(VERSION)\" -D_XOPEN_SOURCE=600 -D_BSD_SOURCE
 LIBS = -L$(X11LIB) -lm -lX11 -lutil -lXft \
        `$(PKG_CONFIG) --libs fontconfig` \
        `$(PKG_CONFIG) --libs freetype2`
 MANPREFIX = ${PREFIX}/man
-endif
+.endif
 
 # compiler and linker
 # CC = c99
